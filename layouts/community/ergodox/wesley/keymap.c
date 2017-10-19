@@ -3,70 +3,35 @@
 #include "action_layer.h"
 #include "version.h"
 
-
-#include "keymap_german.h"
-
-#include "keymap_nordic.h"
-
 #define QWRT 0 // default base
 #define SYMB 1 // symbols
 #define MEDI 2 // media keys
 #define NUMB 3 // numbers and hex
-#define KEYW 5 // keyword macros
-#define EMAC 6 // emacs
-#define CLMK 7 // Colmak
+#define KEYW 4 // keyword macros
+#define CLMK 5 // Colmak
 
 
 // my macros
 #define UM_ECET   M(0)  // { }
-#define UM_0x     M(1)
-#define UM_PUB    M(2)
-#define UM_PRO    M(3)
-#define UM_PRV    M(4)
-#define UM_CLS    M(5)
-#define UM_STR    M(6)
-#define UM_RET    M(7)
-#define UM_INC    M(8)
-#define UM_OBJ    M(9)
-#define UM_GITLOG M(10)
-#define UM_GOODM  M(11)
-#define UM_NAMESP M(12)
-#define UM_EMTR   M(14) // emacs toggle read-only
-#define UM_EMWR   M(15) // emacs write buffer (save)
-#define UM_EMUN   M(16) // emacs undo
-#define UM_EMRE   M(17) // emacs redo
-#define UM_EMPB   M(18) // emacs previous buffer
-#define UM_EMNB   M(19) // emacs next buffer
-#define UM_GOODN  M(20)
-#define UM_ECETS  M(22)  // { };
-#define UM_TMPL   M(23)
-#define UM_TYPN   M(24)
-#define UM_CONT   M(25)
-#define UM_BREAK  M(26)
-#define UM_CONST  M(27)
-#define UM_SMILY  M(28)
-#define UM_SADF   M(29)
-#define UM_SCARF  M(30)
-#define UM_DECAF  M(31)
-#define UM_OPER   M(32)
-#define UM_NULP   M(33)
-#define UM_EXTR   M(34)
-#define UM_VIRT   M(35)
-#define UM_EMFB   M(36) // emacs font bigger
-#define UM_EMFS   M(37) // emacs font smaller
-#define UM_VOLAT  M(38)
+#define UM_0x     M(1)  // 0x
+#define UM_CEQ    M(2)  // :=
+#define UM_STR    M(3)  // struct
+#define UM_RET    M(4)  // return
+#define UM_GITLOG M(5)  // git lola
+#define UM_CONT   M(6)  // continue
+#define UM_BREAK  M(7)  // break
+#define UM_NEQ    M(8)  // !=
 
-#define MUL   20 // mouse up left
-#define MUR   21 // mouse up right
-#define MDL   22 // mouse down left
-#define MDR   23 // mouse down right
+#define MUL   (40) // mouse up left
+#define MUR   (41) // mouse up right
+#define MDL   (42) // mouse down left
+#define MDR   (43) // mouse down right
 
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
   EPRM,
   VRSN,
   RGB_SLD,
-
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -77,16 +42,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
  * | Tab    |    Q   |   W  |   E  |   R  |   T  |   :  |           | Alt  |   Y  |   U  |   I  |   O  |   P  |   \    |
  * |--------+--------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * | BkSp   |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/SYMB| "/LGUI |
+ * | Esc    |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/SYMB| "/LGUI |
  * |--------+--------+------+------+------+------| Esc  |           |  ;   |------+------+------+------+------+--------|
  * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |L1/`| " |   [  | Left |Right |                                       |  Up  | Down |   ]  | Caps | M1  |
+ *   |L1/`| " |   [  | Left |Right |                                       |  Up  | Down |   ]  | Del  | M1  |
  *   `-----------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
  *                                        |  L5  |  lead  |       |  lead  |  Ins |
  *                                 ,------|------|--------|       |--------+------+------.
- *                                 | Space| Del  |  Home  |       |  PgUp  | Enter|Space |
+ *                                 | Space| Bsp  |  Home  |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
  *                                 | Ctrl | Alt  |End/KEYW|       |PDn/KEYW|  Alt | Ctrl |
  *                                 `----------------------'       `----------------------'
@@ -94,24 +59,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 [QWRT] = KEYMAP(
     KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(3),
     KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_COLN,
-    KC_BSPACE,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
+    KC_ESCAPE,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_ESCAPE,
     LT(1,KC_GRAVE), KC_QUOTE,   KC_LBRACKET,    KC_LEFT,    KC_RIGHT,
     TG(KEYW),  KC_LEAD,
     KC_HOME,
-    CTRL_T(KC_SPACE),   ALT_T(KC_DELETE),  LT(5,KC_END),
+    CTRL_T(KC_SPACE),   ALT_T(KC_BSPC),  LT(KEYW,KC_END),
 
     TG(1),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
     KC_LALT,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
         KC_H,   KC_J,   KC_K,   KC_L,   LT(MEDI, KC_SCOLON),    GUI_T(KC_QUOTE),
     KC_SCOLON,  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
-            KC_UP,  KC_DOWN,    KC_RBRACKET,    KC_CAPSLOCK,    MO(SYMB),
+            KC_UP,  KC_DOWN,    KC_RBRACKET,    KC_DELETE,    MO(SYMB),
     KC_LEAD,    CTL_T(KC_ESCAPE),
     KC_PGUP,
     LT(KEYW,KC_PGDOWN),  ALT_T(KC_ENTER),   CTRL_T(KC_SPACE)
 ),
 
-/* Keymap 0: Base layer
+/* Keymap 0: colmak layer
  *
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  |  L3  |           |  L1  |   6  |   7  |   8  |   9  |   0  |   -    |
@@ -122,17 +87,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+--------+------+------+------+------| Esc  |           |  ;   |------+------+------+------+------+--------|
  * | LSft/( | Z/Ctrl |   X  |   C  |   D  |   V  |      |           |      |   M  |   H  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |L1/`| " |   [  | Left |Right |                                       |  Up  | Down |   ]  | Caps | M1  |
+ *   |L1/`| " |   [  | Left |Right |                                       |  Up  | Down |   ]  | Del  | M1  |
  *   `-----------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
  *                                        |  L5  |  lead  |       |  lead  |  Ins |
  *                                 ,------|------|--------|       |--------+------+------.
- *                                 | Space| Del  |  Home  |       |  PgUp  | Enter|Space |
+ *                                 | Space| Bsp  |  Home  |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
  *                                 | Ctrl | Alt  |End/KEYW|       |PDn/KEYW|  Alt | Ctrl |
  *                                 `----------------------'       `----------------------'
  */
-[CLMK] = KEYMAP( // layer 0 : default
+[CLMK] = KEYMAP( // layer 5 : colmak
 	// left hand
 	    KC_EQUAL,	    KC_1,		    KC_2,		    KC_3,		KC_4,		    KC_5,		            TG(3),
     	KC_TAB,         KC_Q,	    	KC_W,	    	KC_F,		KC_P,		    KC_B,		            KC_COLN,
@@ -141,7 +106,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     	LT(1,KC_GRAVE),	KC_QUOTE,	    KC_LBRACKET,	KC_LEFT,	KC_RIGHT,
 				    						                                        TG(5),                  KC_LEAD,
                                                                                                             KC_HOME,
-                                                                    CTRL_T(KC_SPACE),   ALT_T(KC_DELETE),   LT(KEYW,KC_END),
+                                                                    CTRL_T(KC_SPACE),   ALT_T(KC_BSPACE),   LT(KEYW,KC_END),
 
 	// right hand
     	TG(SYMB),		    KC_6,	    	KC_7,	    	KC_8,		KC_9,	    	KC_0,		            KC_MINUS,
@@ -284,18 +249,18 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 4: Keywords
  *
  * ,---------------------------------------------------.           ,--------------------------------------------------.
- * |         |      |      | scarf| sadf | smily|      |           |      | decaf|      |      |      |      |        |
+ * |         |  !=  |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         | const| volat| oper |  ret | tmpl |      |           |      | typen| cont |  prv |  pro | pub  |        |
+ * |         |      |      |      | Retn |      |  :=  |           |      |  {}  |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |      |  str |  obj |      | gitl |------|           |------|      |      |      | nulp |      |        |
+ * |         |      |      |      |      | gitl |------|           |------|      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |      | extr |  cls | virt | break|      |           |      |namesp| goodm| goodn|      |      |        |
+ * |         |      |      | const|      | break|      |           |      |      |      |      |      |      |        |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |       |      |  inc |      |      |                                       |      |      |      |      |      |
+ *   |       |      |      |      |      |                                       |      |      |      |      |      |
  *   `-----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |      |      |       | ecet | ecets|
+ *                                        |      |      |       |      |      |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 |      |      |------|       |------|      |      |
@@ -304,19 +269,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [KEYW] = LAYOUT_ergodox(
         // left hand
-        KC_NO,     KC_NO,     KC_NO,     UM_SCARF,  UM_SADF,   UM_SMILY,   KC_NO,
-        KC_NO,     UM_CONST,  UM_VOLAT,  UM_OPER,   UM_RET,    UM_TMPL,    KC_NO,
-        KC_NO,     KC_NO,     UM_STR,    UM_OBJ,    KC_NO,     UM_GITLOG,
-        KC_NO,     KC_NO,     UM_EXTR,   UM_CLS,    UM_VIRT,   UM_BREAK,   KC_NO,
-        KC_NO,     KC_NO,     UM_INC,    KC_NO,     KC_NO,
+        KC_NO,     KC_NEQ,     KC_NO,     KC_NO,  KC_NO,   KC_NO,   KC_NO,
+        KC_NO,     KC_NO,  KC_NO,  KC_NO,   UM_RET,    KC_NO,    UM_CEQ,
+        KC_NO,     KC_NO,     UM_STR,    KC_NO,    KC_NO,     UM_GITLOG,
+        KC_NO,     KC_NO,     KC_NO,   UM_CONT,    KC_NO,   UM_BREAK,   KC_NO,
+        KC_NO,     KC_NO,     KC_NO,    KC_NO,     KC_NO,
                                                                    KC_NO,    KC_NO,
                                                                              KC_NO,
                                                           KC_NO,   KC_NO,    KC_TRNS,
         // right hand
-             KC_NO,     UM_DECAF,  KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
-             KC_NO,     UM_TYPN,   UM_CONT,   UM_PRV,    UM_PRO,    UM_PUB,    KC_NO,
-                        KC_NO,     KC_NO,     KC_NO,     UM_NULP,   KC_NO,     KC_NO,
-             KC_NO,     UM_NAMESP, UM_GOODM,  UM_GOODN,  KC_NO,     KC_NO,     KC_NO,
+             KC_NO,     KC_NO,  KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
+             KC_NO,     KC_ECET,   KC_NO,   KC_NO,    KC_NO,    KC_NO,    KC_NO,
+                        KC_NO,     KC_NO,     KC_NO,     KC_NO,   KC_NO,     KC_NO,
+             KC_NO,     KC_NO, KC_NO,  KC_NO,  KC_NO,     KC_NO,     KC_NO,
                                    KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
            UM_ECET,  UM_ECETS,
            KC_NO,
@@ -336,252 +301,96 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
                          T(TAB), END);
         }
         break;
-    case 1:
+    case 1: // 0x
         if (record->event.pressed) {
             return MACRO(T(0), T(X), END);
         }
         break;
     case 2:
         if (record->event.pressed) {
-            SEND_STRING("public");
+            SEND_STRING(" := ");
         }
         break;
-    case 3:
+    case 3: // struct
         if (record->event.pressed) {
-            SEND_STRING("protected");
+            return MACRO(T(T), T(Y), T(P), T(E), (SPC),
+                    T(S), T(O), T(M), T(E), D(LSFT), T(N), U(LSFT), T(A),
+                    T(M), T(E), T(SPC), T(S), T(T), T(R), T(U), T(C), T(T),
+                    T(SPC), D(LSFT), T(LBRC), U(LSFT), T(ENT), D(LSFT),
+                    T(RBRC), U(LSFT), T(SCLN), T(ENT), T(UP), T(UP), T(UP),
+                    T(UP), T(END), T(SPC), END);
         }
         break;
     case 4:
         if (record->event.pressed) {
-            SEND_STRING("private");
-        }
-        break;
-    case 5: // class
-        if (record->event.pressed) {
-            return MACRO(T(C), T(L), T(A), T(S), T(S), T(ENT),
-                         D(LSFT), T(LBRC), U(LSFT), T(ENT),
-                         T(P), T(U), T(B), T(L), T(I), T(C),
-                         D(LSFT), T(SCLN), U(LSFT), T(ENT), T(ENT),
-                         T(P), T(R), T(I), T(V), T(A), T(T), T(E),
-                         D(LSFT), T(SCLN), U(LSFT), T(ENT),
-                         D(LSFT), T(RBRC), U(LSFT), T(SCLN), T(ENT),
-                         T(UP), T(UP), T(UP), T(UP), T(UP), T(UP), T(UP),
-                         T(END), T(SPC), END);
-        }
-        break;
-    case 6: // struct
-        if (record->event.pressed) {
-            return MACRO(T(S), T(T), T(R), T(U), T(C), T(T), T(ENT),
-                         D(LSFT), T(LBRC), U(LSFT), T(ENT),
-                         D(LSFT), T(RBRC), U(LSFT), T(SCLN), T(ENT),
-                         T(UP), T(UP), T(UP), T(UP),
-                         T(END), T(SPC), END);
-        }
-        break;
-    case 7:
-        if (record->event.pressed) {
             SEND_STRING("return");
         }
         break;
-    case 8: // #include
-        if (record->event.pressed) {
-            return MACRO(T(NONUS_HASH), T(I), T(N), T(C), T(L), T(U), T(D), T(E), END);
-        }
-        break;
-    case 9:
-        if (record->event.pressed) {
-            SEND_STRING("objdump -CT -x -d");
-        }
-        break;
-    case 10:
+    case 5:
         if (record->event.pressed) {
             SEND_STRING("git log --oneline --graph --decorate=short");
         }
         break;
-    case 11:
-        if (record->event.pressed) {
-            SEND_STRING("good morning");
-        }
-        break;
-    case 12:
-        if (record->event.pressed) {
-            SEND_STRING("namespace");
-        }
-        break;
-    case 14: // emacs toggle read-only
-        if (record->event.pressed) {
-            return MACRO(D(LCTL), T(X), T(Q), U(LCTL), END);
-        }
-        break;
-    case 15: // emacs write buffer
-        if (record->event.pressed) {
-            return MACRO(D(LCTL), T(X), T(S), U(LCTL), END);
-        }
-        break;
-    case 16: // emacs undo
-        if (record->event.pressed) {
-            return MACRO(D(LCTL), D(LSFT), T(MINS), U(LSFT), U(LCTL), END);
-        }
-        break;
-    case 17: // emacs redo
-        if (record->event.pressed) {
-            return MACRO(D(LALT), D(LSFT), T(MINS), U(LSFT), U(LALT), END);
-        }
-        break;
-    case 18: // emacs previous buffer
-        if (record->event.pressed) {
-            return MACRO(D(LCTL), T(X), U(LCTL), T(LEFT), END);
-        }
-        break;
-    case 19: // emacs next buffer
-        if (record->event.pressed) {
-            return MACRO(D(LCTL), T(X), U(LCTL), T(RGHT), END);
-        }
-        break;
-    case 20:
-        if (record->event.pressed) {
-            SEND_STRING("good night");
-        }
-        break;
-    case 22: // { };
-        if (record->event.pressed) {
-            return MACRO(T(ENT), D(LSFT), T(LBRC), U(LSFT), T(ENT),
-                         D(LSFT), T(RBRC), U(LSFT), T(SCLN), T(UP),
-                         T(TAB), END);
-        }
-        break;
-    case 23:
-        if (record->event.pressed) {
-            SEND_STRING("template");
-        }
-        break;
-    case 24:
-        if (record->event.pressed) {
-            SEND_STRING("typename");
-        }
-        break;
-    case 25:
+    case 6:
         if (record->event.pressed) {
             SEND_STRING("continue");
-            return MACRO(T(SCLN), END);
         }
         break;
-    case 26:
+    case 7:
         if (record->event.pressed) {
             SEND_STRING("break");
-            return MACRO(T(SCLN), END);
         }
         break;
-    case 27:
+    case 8:
         if (record->event.pressed) {
-            SEND_STRING("const");
+            SEND_STRING("!=");
         }
         break;
-    case 28:
+    // mouse diagonals
+    case MUL: // mouse up left
         if (record->event.pressed) {
-            SEND_STRING(":-)");
+            mousekey_on(KC_MS_UP);
+            mousekey_on(KC_MS_LEFT);
+            mousekey_send();
+        } else {
+            mousekey_off(KC_MS_UP);
+            mousekey_off(KC_MS_LEFT);
+            mousekey_send();
         }
         break;
-    case 29:
+    case MUR: // mouse up right
         if (record->event.pressed) {
-            SEND_STRING(":-(");
+            mousekey_on(KC_MS_UP);
+            mousekey_on(KC_MS_RIGHT);
+            mousekey_send();
+        } else {
+            mousekey_off(KC_MS_UP);
+            mousekey_off(KC_MS_RIGHT);
+            mousekey_send();
         }
         break;
-    case 30: // dazed
+    case MDL: // mouse down left
         if (record->event.pressed) {
-            send_keystrokes(NK_DOWN, KC_LSFT, KC_8, KC_MINS, KC_8, NK_UP, KC_LSFT, KC_NO);
+            mousekey_on(KC_MS_DOWN);
+            mousekey_on(KC_MS_LEFT);
+            mousekey_send();
+        } else {
+            mousekey_off(KC_MS_DOWN);
+            mousekey_off(KC_MS_LEFT);
+            mousekey_send();
         }
         break;
-    case 31: // decaf
+    case MDR: // mouse down right
         if (record->event.pressed) {
-            send_keystrokes(NK_DOWN, KC_LSFT, KC_C, KC_9, KC_MINS, KC_0, NK_UP, KC_LSFT, KC_NO);
+            mousekey_on(KC_MS_DOWN);
+            mousekey_on(KC_MS_RIGHT);
+            mousekey_send();
+        } else {
+            mousekey_off(KC_MS_DOWN);
+            mousekey_off(KC_MS_RIGHT);
+            mousekey_send();
         }
         break;
-    case 32:
-        if (record->event.pressed) {
-            SEND_STRING("operator");
-        }
-        break;
-    case 33:
-        if (record->event.pressed) {
-            SEND_STRING("nullptr");
-        }
-        break;
-    case 34:
-        if (record->event.pressed) {
-            SEND_STRING("extern");
-        }
-        break;
-    case 35:
-        if (record->event.pressed) {
-            SEND_STRING("virtual");
-        }
-        break;
-    case 36: // emacs font smaller
-        if (record->event.pressed) {
-            return MACRO(D(LCTL), T(X), T(EQL), U(LCTL), END);
-        }
-        break;
-    case 37:  // emacs font bigger
-        if (record->event.pressed) {
-            return MACRO(D(LCTL), T(X), T(MINS), U(LCTL), END);
-        }
-        break;
-    case 38:
-        if (record->event.pressed) {
-            SEND_STRING("volatile");
-        }
-        break;
-
-            // mouse diagonals
-
-                case MUL: // mouse up left
-                if (record->event.pressed) {
-                    mousekey_on(KC_MS_UP);
-                    mousekey_on(KC_MS_LEFT);
-                    mousekey_send();
-                } else {
-                    mousekey_off(KC_MS_UP);
-                    mousekey_off(KC_MS_LEFT);
-                    mousekey_send();
-                }
-                break;
-
-                case MUR: // mouse up right
-                if (record->event.pressed) {
-                    mousekey_on(KC_MS_UP);
-                    mousekey_on(KC_MS_RIGHT);
-                    mousekey_send();
-                } else {
-                    mousekey_off(KC_MS_UP);
-                    mousekey_off(KC_MS_RIGHT);
-                    mousekey_send();
-                }
-                break;
-
-                case MDL: // mouse down left
-                if (record->event.pressed) {
-                    mousekey_on(KC_MS_DOWN);
-                    mousekey_on(KC_MS_LEFT);
-                    mousekey_send();
-                } else {
-                    mousekey_off(KC_MS_DOWN);
-                    mousekey_off(KC_MS_LEFT);
-                    mousekey_send();
-                }
-                break;
-
-                case MDR: // mouse down right
-                if (record->event.pressed) {
-                    mousekey_on(KC_MS_DOWN);
-                    mousekey_on(KC_MS_RIGHT);
-                    mousekey_send();
-                } else {
-                    mousekey_off(KC_MS_DOWN);
-                    mousekey_off(KC_MS_RIGHT);
-                    mousekey_send();
-                }
-                break;
     }
     return MACRO_NONE;
 }
@@ -630,21 +439,18 @@ void matrix_scan_user(void) {
             SEND_STRING("git commit --amend");
         }
 
-        SEQ_TWO_KEYS(KC_C, KC_C) {
-            SEND_STRING("const_cast<>");
-            send_keystrokes(KC_LEFT, KC_NO);
+
+        SEQ_TWO_KEYS(KC_T, KC_P) {
+            send_keystrokes(KC_ESCAPE, KC_NO);
+            SEND_STRING(":tabp ");
         }
-        SEQ_TWO_KEYS(KC_C, KC_D) {
-            SEND_STRING("dynamic_cast<>");
-            send_keystrokes(KC_LEFT, KC_NO);
+        SEQ_TWO_KEYS(KC_T, KC_N) {
+            send_keystrokes(KC_ESCAPE, KC_NO);
+            SEND_STRING(":tabn ");
         }
-        SEQ_TWO_KEYS(KC_C, KC_R) {
-            SEND_STRING("reinterpret_cast<>");
-            send_keystrokes(KC_LEFT, KC_NO);
-        }
-        SEQ_TWO_KEYS(KC_C, KC_S) {
-            SEND_STRING("static_cast<>");
-            send_keystrokes(KC_LEFT, KC_NO);
+        SEQ_TWO_KEYS(KC_T, KC_F) {
+            send_keystrokes(KC_ESCAPE, KC_NO);
+            SEND_STRING(":tabf ");
         }
 
         SEQ_ONE_KEY(KC_SLSH) {
