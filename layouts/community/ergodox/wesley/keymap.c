@@ -1,7 +1,8 @@
-#include "ergodox.h"
+#include "ergodox_ez.h"
 #include "debug.h"
 #include "action_layer.h"
 #include "version.h"
+#include "mousekey.h"
 
 #define QWRT 0 // default base
 #define SYMB 1 // symbols
@@ -12,6 +13,8 @@
 
 
 // my macros
+#define MACRO_TODO 9
+
 #define UM_ECET   M(0)  // { }
 #define UM_0x     M(1)  // 0x
 #define UM_CEQ    M(2)  // :=
@@ -64,7 +67,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LT(1,KC_GRAVE), KC_QUOTE,   KC_LBRACKET,    KC_LEFT,    KC_RIGHT,
     TG(KEYW),  KC_LEAD,
     KC_HOME,
-    CTRL_T(KC_SPACE),   ALT_T(KC_BSPC),  LT(KEYW,KC_END),
+    CTL_T(KC_SPACE),   ALT_T(KC_BSPC),  LT(KEYW,KC_END),
 
     TG(1),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
     KC_LALT,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
@@ -73,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_UP,  KC_DOWN,    KC_RBRACKET,    KC_DELETE,    MO(SYMB),
     KC_LEAD,    CTL_T(KC_ESCAPE),
     KC_PGUP,
-    LT(KEYW,KC_PGDOWN),  ALT_T(KC_ENTER),   CTRL_T(KC_SPACE)
+    LT(KEYW,KC_PGDOWN),  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
 ),
 
 /* Keymap 0: colmak layer
@@ -106,7 +109,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     	LT(1,KC_GRAVE),	KC_QUOTE,	    KC_LBRACKET,	KC_LEFT,	KC_RIGHT,
 				    						                                        TG(5),                  KC_LEAD,
                                                                                                             KC_HOME,
-                                                                    CTRL_T(KC_SPACE),   ALT_T(KC_BSPACE),   LT(KEYW,KC_END),
+                                                                    CTL_T(KC_SPACE),   ALT_T(KC_BSPACE),   LT(KEYW,KC_END),
 
 	// right hand
     	TG(SYMB),		    KC_6,	    	KC_7,	    	KC_8,		KC_9,	    	KC_0,		            KC_MINUS,
@@ -116,7 +119,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	    			                	KC_UP,		    KC_DOWN,   	KC_RBRACKET,	KC_CAPSLOCK,    	    MO(SYMB),
     	KC_LEAD,        CTL_T(KC_ESCAPE),
         KC_PGUP,
-        LT(KEYW,KC_PGDOWN),  ALT_T(KC_ENTER),   CTRL_T(KC_SPACE)
+        LT(KEYW,KC_PGDOWN),  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
     ),
 
 /* Keymap 1: Symbol Layer with F keys
@@ -154,7 +157,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	// right hand
 	KC_TRNS,	    KC_F6,		    KC_F7,		    KC_F8,		    KC_F9,		    KC_F10,		    KC_F11,
 	KC_TRNS,	    KC_UP,	        KC_7,		    KC_8,		    KC_9,		    KC_KP_SLASH,	KC_F12,
-			        KC_DOWN,	    KC_4,		    KC_5,		    KC_6,		    KC_KP_ASTR,	    KC_TRNS,
+			        KC_DOWN,	    KC_4,		    KC_5,		    KC_6,		    KC_ASTR,	    KC_TRNS,
 	KC_TRNS,	    KC_AMPR,	    KC_1,		    KC_2,		    KC_3,		    KC_KP_MINUS,	KC_ENTER,
 					                KC_KP_0,	    KC_DOT,		    KC_EQUAL,	    KC_KP_PLUS,	    KC_TRNS,
 	KC_TRNS,	    KC_TRNS,
@@ -228,7 +231,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [NUMB] = KEYMAP(
     KC_TRNS,    LSFT(KC_A),     LSFT(KC_B),     LSFT(KC_C),     LSFT(KC_D),     LSFT(KC_E),      LSFT(KC_F),
-    KC_TRNS,    KC_KP_ASTR,     KC_KP_7,        KC_KP_8,        KC_KP_9,        KC_KP_ASTR,      UM_0x,
+    KC_TRNS,    KC_ASTR,     KC_KP_7,        KC_KP_8,        KC_KP_9,        KC_ASTR,      UM_0x,
     KC_TRNS,    KC_KP_SLASH,    KC_KP_4,        KC_KP_5,        KC_KP_6,        KC_KP_SLASH,
     KC_TRNS,    KC_KP_MINUS,    KC_KP_1,        KC_KP_2,        KC_KP_3,        KC_KP_MINUS,     TO(1),
     KC_EQUAL,   KC_KP_PLUS,     KC_KP_0,        KC_COMMA,       KC_DOT,
@@ -236,7 +239,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                                  KC_TRNS,
                                                                 KC_TRNS,        KC_TRNS,           KC_TRNS,
 
-    KC_TRNS,    KC_TRNS,        KC_TRNS,        KC_KP_SLASH,    KC_KP_ASTR, KC_TRNS, KC_TRNS,
+    KC_TRNS,    KC_TRNS,        KC_TRNS,        KC_KP_SLASH,    KC_ASTR, KC_TRNS, KC_TRNS,
     KC_TRNS,    KC_VOLU,        KC_KP_7,        KC_KP_8,        KC_KP_9,        KC_KP_MINUS,    KC_TRNS,
                 KC_VOLD,        KC_KP_4,        KC_KP_5,        KC_KP_6,        KC_KP_PLUS,     KC_TRNS,
     KC_TRNS,    KC_MUTE,        KC_KP_1,        KC_KP_2,        KC_KP_3,        KC_ENTER,       KC_TRNS,
@@ -251,7 +254,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------------------------------------------------.           ,--------------------------------------------------.
  * |         |  !=  |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |      |      |      | Retn |      |  :=  |           |      |  {}  |      |      |      |      |        |
+ * |         |      |      |      | Retn | TODO |  :=  |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         |      |      |      |      | gitl |------|           |------|      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -260,7 +263,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   |       |      |      |      |      |                                       |      |      |      |      |      |
  *   `-----------------------------------'                                       `----------------------------------'
  *                                        ,-------------.       ,-------------.
- *                                        |      |      |       |      |      |
+ *                                        |      |      |       | {}   |      |
  *                                 ,------|------|------|       |------+------+------.
  *                                 |      |      |      |       |      |      |      |
  *                                 |      |      |------|       |------|      |      |
@@ -269,8 +272,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [KEYW] = LAYOUT_ergodox(
         // left hand
-        KC_NO,     KC_NEQ,     KC_NO,     KC_NO,  KC_NO,   KC_NO,   KC_NO,
-        KC_NO,     KC_NO,  KC_NO,  KC_NO,   UM_RET,    KC_NO,    UM_CEQ,
+        KC_NO,     UM_NEQ,     KC_NO,     KC_NO,  KC_NO,   KC_NO,   KC_NO,
+        KC_NO,     KC_NO,      KC_NO,     KC_NO,   UM_RET,    M(MACRO_TODO),    UM_CEQ,
         KC_NO,     KC_NO,     UM_STR,    KC_NO,    KC_NO,     UM_GITLOG,
         KC_NO,     KC_NO,     KC_NO,   UM_CONT,    KC_NO,   UM_BREAK,   KC_NO,
         KC_NO,     KC_NO,     KC_NO,    KC_NO,     KC_NO,
@@ -279,11 +282,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                           KC_NO,   KC_NO,    KC_TRNS,
         // right hand
              KC_NO,     KC_NO,  KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
-             KC_NO,     KC_ECET,   KC_NO,   KC_NO,    KC_NO,    KC_NO,    KC_NO,
+             KC_NO,     KC_NO,   KC_NO,   KC_NO,    KC_NO,    KC_NO,    KC_NO,
                         KC_NO,     KC_NO,     KC_NO,     KC_NO,   KC_NO,     KC_NO,
              KC_NO,     KC_NO, KC_NO,  KC_NO,  KC_NO,     KC_NO,     KC_NO,
                                    KC_NO,     KC_NO,     KC_NO,     KC_NO,     KC_NO,
-           UM_ECET,  UM_ECETS,
+           UM_ECET,  KC_NO,
            KC_NO,
            KC_TRNS,  KC_NO,   KC_NO
     ),
@@ -313,7 +316,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         break;
     case 3: // struct
         if (record->event.pressed) {
-            return MACRO(T(T), T(Y), T(P), T(E), (SPC),
+            return MACRO(T(T), T(Y), T(P), T(E), T(SPC),
                     T(S), T(O), T(M), T(E), D(LSFT), T(N), U(LSFT), T(A),
                     T(M), T(E), T(SPC), T(S), T(T), T(R), T(U), T(C), T(T),
                     T(SPC), D(LSFT), T(LBRC), U(LSFT), T(ENT), D(LSFT),
@@ -346,6 +349,11 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             SEND_STRING("!=");
         }
         break;
+    case MACRO_TODO:
+        if (record->event.pressed) {
+            SEND_STRING("//TODO: ");
+        }
+         break;
     // mouse diagonals
     case MUL: // mouse up left
         if (record->event.pressed) {
@@ -399,6 +407,42 @@ LEADER_EXTERNS();
 
 // Runs constantly in the background, in a loop.
 void matrix_scan_user(void) {
+    uint8_t layer = biton32(layer_state);
+
+    ergodox_board_led_off();
+    ergodox_right_led_1_off();
+    ergodox_right_led_2_off();
+    ergodox_right_led_3_off();
+    switch (layer) {
+        case 1:
+            ergodox_right_led_1_on();
+            break;
+        case 2:
+            ergodox_right_led_2_on();
+            break;
+        case 3:
+            ergodox_right_led_3_on();
+            break;
+        case 4:
+            ergodox_right_led_1_on();
+            ergodox_right_led_2_on();
+            break;
+        case 5:
+            ergodox_right_led_1_on();
+            ergodox_right_led_3_on();
+            break;
+        case 6:
+            ergodox_right_led_2_on();
+            ergodox_right_led_3_on();
+            break;
+        case 7:
+            ergodox_right_led_1_on();
+            ergodox_right_led_2_on();
+            ergodox_right_led_3_on();
+            break;
+        default:
+            break;
+    }
 
     LEADER_DICTIONARY() {
         leading = false;
@@ -433,49 +477,23 @@ void matrix_scan_user(void) {
         }
         SEQ_TWO_KEYS(KC_G, KC_C) {
             SEND_STRING("git commit -m ''");
-            send_keystrokes(KC_LEFT, KC_NO);
         }
         SEQ_THREE_KEYS(KC_G, KC_C, KC_A) {
             SEND_STRING("git commit --amend");
         }
-
-
         SEQ_TWO_KEYS(KC_T, KC_P) {
-            send_keystrokes(KC_ESCAPE, KC_NO);
             SEND_STRING(":tabp ");
         }
         SEQ_TWO_KEYS(KC_T, KC_N) {
-            send_keystrokes(KC_ESCAPE, KC_NO);
             SEND_STRING(":tabn ");
         }
         SEQ_TWO_KEYS(KC_T, KC_F) {
-            send_keystrokes(KC_ESCAPE, KC_NO);
             SEND_STRING(":tabf ");
-        }
-
-        SEQ_ONE_KEY(KC_SLSH) {
-            send_keystrokes(KC_SLSH, NK_DOWN, KC_LSFT, KC_8, KC_8, NK_UP, KC_LSFT, KC_ENT,
-                            NK_DOWN, KC_LSFT, KC_8, NK_UP, KC_LSFT, KC_ENT,
-                            NK_DOWN, KC_LSFT, KC_8, NK_UP, KC_LSFT, KC_SLSH, KC_UP, KC_END, KC_SPC,
-                            KC_NO);
         }
     }
 }
 const uint16_t PROGMEM fn_actions[] = {
   [1] = ACTION_LAYER_TAP_TOGGLE(1)
-};
-
-// leaving this in place for compatibilty with old keymaps cloned and re-compiled.
-const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
-{
-      switch(id) {
-        case 0:
-        if (record->event.pressed) {
-          SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-        }
-        break;
-      }
-    return MACRO_NONE;
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -504,6 +522,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   return true;
 }
 
+/*
 void matrix_scan_user(void) {
 
     uint8_t layer = biton32(layer_state);
@@ -544,4 +563,5 @@ void matrix_scan_user(void) {
     }
 
 };
+*/
 
