@@ -43,16 +43,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  |  L3  |           |  L1  |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |    Q   |   W  |   E  |   R  |   T  |   :  |           | Alt  |   Y  |   U  |   I  |   O  |   P  |   \    |
- * |--------+--------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * | Tab    |    Q   |   W  |   E  |   R  |   T  |   :  |           |  [   |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * |--------+--------+------+------+------+------|      |           |  {   |------+------+------+------+------+--------|
  * | Esc    |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/SYMB| "/LGUI |
- * |--------+--------+------+------+------+------| Esc  |           |  ;   |------+------+------+------+------+--------|
- * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RSft/) |
+ * |--------+--------+------+------+------+------| Esc  |           |  ]   |------+------+------+------+------+--------|
+ * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           |  }   |   N  |   M  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |L1/`| " |   [  | Left |Right |                                       |  Up  | Down |   ]  | Del  | M1  |
  *   `-----------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
- *                                        |  L5  |  lead  |       |  lead  |  Ins |
+ *                                        | NUMB |  lead  |       |  lead  |  Ins |
  *                                 ,------|------|--------|       |--------+------+------.
  *                                 | Space| Bsp  |  Home  |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
@@ -65,14 +65,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESCAPE,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_ESCAPE,
     LT(1,KC_GRAVE), KC_QUOTE,   KC_LBRACKET,    KC_LEFT,    KC_RIGHT,
-    TG(KEYW),  KC_LEAD,
+    TG(NUMB),  KC_LEAD,
     KC_HOME,
     CTL_T(KC_SPACE),   ALT_T(KC_BSPC),  LT(KEYW,KC_END),
 
     TG(1),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
-    KC_LALT,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
+    KC_LBRACKET,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
         KC_H,   KC_J,   KC_K,   KC_L,   LT(MEDI, KC_SCOLON),    GUI_T(KC_QUOTE),
-    KC_SCOLON,  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
+    KC_RBRACKET,  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
             KC_UP,  KC_DOWN,    KC_RBRACKET,    KC_DELETE,    MO(SYMB),
     KC_LEAD,    CTL_T(KC_ESCAPE),
     KC_PGUP,
@@ -84,16 +84,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  |  L3  |           |  L1  |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |    Q   |   W  |   F  |   P  |   B  |   :  |           | Alt  |   J  |   L  |   U  |   Y  |   ;  |   \    |
- * |--------+--------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * | Tab    |    Q   |   W  |   F  |   P  |   B  |   :  |           |  [  |   J  |   L  |   U  |   Y  |   ;  |   \    |
+ * |--------+--------+------+------+------+------|      |           |  }  |------+------+------+------+------+--------|
  * | BkSp   |    A   |   R  |   S  |   T  |   G  |------|           |------|   K  |   N  |   E  |   I  |   O  |Enter/L2|
- * |--------+--------+------+------+------+------| Esc  |           |  ;   |------+------+------+------+------+--------|
- * | LSft/( | Z/Ctrl |   X  |   C  |   D  |   V  |      |           |      |   M  |   H  |   ,  |   .  |   /  | RSft/) |
+ * |--------+--------+------+------+------+------| Esc  |           |  ]   |------+------+------+------+------+--------|
+ * | LSft/( | Z/Ctrl |   X  |   C  |   D  |   V  |      |           |  }   |   M  |   H  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |L1/`| " |   [  | Left |Right |                                       |  Up  | Down |   ]  | Del  | M1  |
  *   `-----------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
- *                                        |  L5  |  lead  |       |  lead  |  Ins |
+ *                                        | NUMB |  lead  |       |  lead  |  Ins |
  *                                 ,------|------|--------|       |--------+------+------.
  *                                 | Space| Bsp  |  Home  |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
@@ -107,15 +107,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	    KC_BSPACE,	    KC_A,		    KC_R,		    KC_S,		KC_T,		    KC_G,
 	    KC_LSPO,	    CTL_T(KC_Z),	KC_X,	    	KC_C,		KC_D,		    KC_V,		            KC_ESCAPE,
     	LT(1,KC_GRAVE),	KC_QUOTE,	    KC_LBRACKET,	KC_LEFT,	KC_RIGHT,
-				    						                                        TG(5),                  KC_LEAD,
+				    						                                        TG(NUMB),                  KC_LEAD,
                                                                                                             KC_HOME,
                                                                     CTL_T(KC_SPACE),   ALT_T(KC_BSPACE),   LT(KEYW,KC_END),
 
 	// right hand
     	TG(SYMB),		    KC_6,	    	KC_7,	    	KC_8,		KC_9,	    	KC_0,		            KC_MINUS,
-	    KC_LALT,    	KC_J,		    KC_L,	    	KC_U,		KC_Y,	    	KC_SCOLON,	            KC_BSLASH,
+	    KC_LBRACKET,    	KC_J,		    KC_L,	    	KC_U,		KC_Y,	    	KC_SCOLON,	            KC_BSLASH,
     			        KC_K,   		KC_N,	    	KC_E,		KC_I,	    	LT(MEDI,KC_O), 	        GUI_T(KC_QUOTE),
-        KC_SCOLON,	    KC_M,	    	KC_H,	    	KC_COMMA,   KC_DOT,	    	CTL_T(KC_SLASH),        KC_RSPC,
+        KC_RBRACKET,	    KC_M,	    	KC_H,	    	KC_COMMA,   KC_DOT,	    	CTL_T(KC_SLASH),        KC_RSPC,
 	    			                	KC_UP,		    KC_DOWN,   	KC_RBRACKET,	KC_CAPSLOCK,    	    MO(SYMB),
     	KC_LEAD,        CTL_T(KC_ESCAPE),
         KC_PGUP,
@@ -252,7 +252,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 4: Keywords
  *
  * ,---------------------------------------------------.           ,--------------------------------------------------.
- * |         |  !=  |      |      |      |      |      |           |      |      |      |      |      |      |        |
+ * |         |  !=  |      |      |      |  T5  |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
  * |         |      |      |      | Retn | TODO |  :=  |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -272,7 +272,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [KEYW] = LAYOUT_ergodox(
         // left hand
-        KC_NO,     UM_NEQ,     KC_NO,     KC_NO,  KC_NO,   KC_NO,   KC_NO,
+        KC_NO,     UM_NEQ,     KC_NO,     KC_NO,  KC_NO,   TO(CLMK),   KC_NO,
         KC_NO,     KC_NO,      KC_NO,     KC_NO,   UM_RET,    M(MACRO_TODO),    UM_CEQ,
         KC_NO,     KC_NO,     UM_STR,    KC_NO,    KC_NO,     UM_GITLOG,
         KC_NO,     KC_NO,     KC_NO,   UM_CONT,    KC_NO,   UM_BREAK,   KC_NO,
