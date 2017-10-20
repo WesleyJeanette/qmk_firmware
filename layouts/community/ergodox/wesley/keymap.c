@@ -314,8 +314,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
          break;
     case MACRO_ERR: // err != nil { }
         if (record->event.pressed) {
-            return MACRO(T(I), T(F), T(SPC), T(E), T(R), T(R), T(SPC),
-                    T(EXLM), T(EQL), T(SPC), T(N), T(I), T(L),
+            return MACRO(T(I), T(F), T(SPC), T(E), T(R), T(R), T(SPC), D(LSFT),
+                    T(1), U(LSFT), T(EQL), T(SPC), T(N), T(I), T(L),
                     T(SPC), D(LSFT), T(LBRC), U(LSFT), T(ENT), T(ENT), D(LSFT),
                     T(RBRC), U(LSFT), T(UP), T(TAB), END);
         }
