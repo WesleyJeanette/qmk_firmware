@@ -40,16 +40,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  |  L3  |           |  L1  |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |    Q   |   W  |   E  |   R  |   T  |   [  |           |  ]   |   Y  |   U  |   I  |   O  |   P  |   \    |
- * |--------+--------+------+------+------+------|   {  |           |  }   |------+------+------+------+------+--------|
+ * | Tab    |    Q   |   W  |   E  |   R  |   T  |   :  |           |  [   |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * |--------+--------+------+------+------+------|      |           |  {   |------+------+------+------+------+--------|
  * | Esc    |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/MEDI| "/LGUI |
- * |--------+--------+------+------+------+------|  :   |           |  Esc |------+------+------+------+------+--------|
- * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |   /  | RSft/) |
+ * |--------+--------+------+------+------+------|  Esc |           |  ]   |------+------+------+------+------+--------|
+ * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           |  }   |   N  |   M  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |L1/`| " |   [  | Left |Right |                                       |  Up  | Down |   ]  | Del  |SYMB  |
  *   `-----------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
- *                                        | NUMB |  lead  |       |  lead  |  Ins |
+ *                                        | lead |  NUMB  |       |    |lead  |
  *                                 ,------|------|--------|       |--------+------+------.
  *                                 | Space| Bsp  |  Home  |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
@@ -58,20 +58,20 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [QWRT] = KEYMAP(
     KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(3),
-    KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_LBRACKET,
+    KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_COLN,
     KC_ESCAPE,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
-    KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_COLN,
-    LT(1,KC_GRAVE), KC_QUOTE,   KC_LBRACKET,    KC_LEFT,    KC_RIGHT,
-    TG(NUMB),  KC_LEAD,
+    KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_ESCAPE,
+    LT(1,KC_GRAVE), KC_QUOTE,   KC_LCBR,    KC_LEFT,    KC_RIGHT,
+    KC_LEAD, TG(NUMB),
     KC_HOME,
     CTL_T(KC_SPACE),   ALT_T(KC_BSPC),  LT(KEYW,KC_END),
 
     TG(1),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
-    KC_RBRACKET,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
-        KC_H,   KC_J,   KC_K,   KC_L,   LT(MEDI, KC_SCOLON),    GUI_T(KC_DQT),
-    KC_ESCAPE,  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
-            KC_UP,  KC_DOWN,    KC_RBRACKET,    KC_DELETE,    MO(SYMB),
-    KC_LEAD,    CTL_T(KC_ESCAPE),
+    KC_LBRACKET,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
+        KC_H,   KC_J,   KC_K,   KC_L,   LT(MEDI, KC_SCOLON),    GUI_T(KC_QUOTE),
+    KC_RBRACKET,  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
+            KC_UP,  KC_DOWN,    KC_RCBR,    KC_DELETE,    MO(SYMB),
+    CTL_T(KC_ESCAPE), KC_LEAD,
     KC_PGUP,
     LT(KEYW,KC_PGDOWN),  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
 ),
@@ -208,7 +208,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,---------------------------------------------------.           ,--------------------------------------------------.
  * |         |  !=  |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |         |      |      |  Err  | Retn | TODO |  :=  |           |      |      |      |      |      |      |        |
+ * |         |      |      |  Err | Retn | TODO |  :=  |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         |      |      |      |      | gitl |------|           |------|      |      |      | Range|      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -410,6 +410,9 @@ void matrix_scan_user(void) {
         }
         SEQ_THREE_KEYS(KC_F, KC_P, KC_L) {
             SEND_STRING("fmt.Println()");
+        }
+        SEQ_THREE_KEYS(KC_T, KC_E, KC_F) {
+            SEND_STRING("t.Errorf()");
         }
     }
 }
