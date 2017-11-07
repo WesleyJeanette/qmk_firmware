@@ -46,10 +46,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+--------+------+------+------+------|  Esc |           |  ]   |------+------+------+------+------+--------|
  * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           |  }   |   N  |   M  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |L1/`| " |   [  | Left |Right |                                       |  Up  | Down |   ]  | Del  |SYMB  |
+ *   |L1/`| ` |   [  | Left |Right |                                       |  Up  | Down |   ]  | Del  |SYMB  |
  *   `-----------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
- *                                        | lead |  NUMB  |       |    |lead  |
+ *                                        | lead |  NUMB  |       |esc/ctrl|lead  |
  *                                 ,------|------|--------|       |--------+------+------.
  *                                 | Space| Bsp  |  Home  |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
@@ -61,7 +61,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_COLN,
     KC_ESCAPE,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_ESCAPE,
-    LT(1,KC_GRAVE), KC_QUOTE,   KC_LCBR,    KC_LEFT,    KC_RIGHT,
+    LT(1,KC_GRAVE), KC_GRAVE,   KC_LCBR,    KC_LEFT,    KC_RIGHT,
     KC_LEAD, TG(NUMB),
     KC_HOME,
     CTL_T(KC_SPACE),   ALT_T(KC_BSPC),  LT(KEYW,KC_END),
@@ -165,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 /* Keymap 3: Numerics and hex
  *
  * ,---------------------------------------------------.           ,--------------------------------------------------.
- * |   ##    |  A   |  B   |  C   |  D   |  E   |  F   |           |  ##  |  ##  |  ##  |  /   |   *  |  ##  |   ##   |
+ * |    A    |  B   |  C   |  D   |  E   |  F   | ##   |           |  ##  |  ##  |  ##  |  /   |   *  |  ##  |   ##   |
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
  * |   ##    |  *   |  7   |  8   |  9   |  *   |  0x  |           |  ##  | V UP |   7  |   8  |   9  |   -  |   ##   |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
@@ -184,7 +184,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 `--------------------'       `--------------------'
  */
 [NUMB] = KEYMAP(
-    KC_TRNS,    LSFT(KC_A),     LSFT(KC_B),     LSFT(KC_C),     LSFT(KC_D),     LSFT(KC_E),      LSFT(KC_F),
+    LSFT(KC_A),     LSFT(KC_B),     LSFT(KC_C),     LSFT(KC_D),     LSFT(KC_E),      LSFT(KC_F),  KC_TRNS,
     KC_TRNS,    KC_ASTR,     KC_KP_7,        KC_KP_8,        KC_KP_9,        KC_ASTR,      UM_0x,
     KC_TRNS,    KC_KP_SLASH,    KC_KP_4,        KC_KP_5,        KC_KP_6,        KC_KP_SLASH,
     KC_TRNS,    KC_KP_MINUS,    KC_KP_1,        KC_KP_2,        KC_KP_3,        KC_KP_MINUS,     TO(1),
@@ -402,7 +402,7 @@ void matrix_scan_user(void) {
         SEQ_THREE_KEYS(KC_G, KC_C, KC_A) {
             SEND_STRING("git commit --amend");
         }
-        SEQ_THREE_KEYS(KC_F, KC_S, KC_P) {
+        SEQ_TWO_KEYS(KC_F, KC_S) {
             SEND_STRING("fmt.Sprintf()");
         }
         SEQ_THREE_KEYS(KC_F, KC_P, KC_F) {
