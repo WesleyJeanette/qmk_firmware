@@ -10,7 +10,6 @@
 #define NUMB 3 // numbers and hex
 #define KEYW 4 // keyword macros
 
-
 // my macros
 #define MACRO_TODO 9
 #define MACRO_RNGE 10
@@ -26,12 +25,16 @@
 #define UM_BREAK  M(7)  // break
 #define UM_NEQ    M(8)  // !=
 
-
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
   EPRM,
   VRSN,
   RGB_SLD,
+};
+
+// tapdance
+enum {
+ TMUX = 0
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -40,38 +43,38 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  |  L3  |           |  L1  |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |    Q   |   W  |   E  |   R  |   T  |   :  |           |  [   |   Y  |   U  |   I  |   O  |   P  |   \    |
- * |--------+--------+------+------+------+------|      |           |  {   |------+------+------+------+------+--------|
- * | Esc    |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/MEDI| "/LGUI |
- * |--------+--------+------+------+------+------|  Esc |           |  ]   |------+------+------+------+------+--------|
- * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           |  }   |   N  |   M  |   ,  |   .  |   /  | RSft/) |
+ * | Esc    |    Q   |   W  |   E  |   R  |   T  |   :  |           |      |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * |--------+--------+------+------+------+------|      |           |  `   |------+------+------+------+------+--------|
+ * | Tab    |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/MEDI| "/LGUI |
+ * |--------+--------+------+------+------+------|  Esc |           | OSL  |------+------+------+------+------+--------|
+ * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           | SYMB |   N  |   M  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |L1/`| ` |   [  | Left |Right |                                       |  Up  | Down |   ]  | Del  |SYMB  |
- *   `-----------------------------'                                       `----------------------------------'
+ *   |L1/`| Home | End | Left |Right |                                       |  Up  | Down | PgUp | PgDn | Caps |
+ *   `-------------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
- *                                        | lead |  NUMB  |       |esc/ctrl|lead  |
+ *                                        | lead |  NUMB  |       |   esc  |lead  |
  *                                 ,------|------|--------|       |--------+------+------.
- *                                 | Space| Bsp  |  Home  |       |  PgUp  | Enter|Space |
+ *                                 | Bsp  | Del  |  Home  |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
  *                                 | Ctrl | Alt  |End/KEYW|       |PDn/KEYW|  Alt | Ctrl |
  *                                 `----------------------'       `----------------------'
  */
 [QWRT] = KEYMAP(
     KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(3),
-    KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_COLN,
-    KC_ESCAPE,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
+    KC_ESCAPE, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_COLN,
+    KC_TAB,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_ESCAPE,
-    LT(1,KC_GRAVE), KC_GRAVE,   KC_LCBR,    KC_LEFT,    KC_RIGHT,
+    LT(1,KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
     KC_LEAD, TG(NUMB),
     KC_HOME,
-    CTL_T(KC_SPACE),   ALT_T(KC_BSPC),  LT(KEYW,KC_END),
+    CTL_T(KC_BSPC),   ALT_T(KC_DELETE),  LT(KEYW,KC_END),
 
     TG(1),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
-    KC_LBRACKET,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
+    KC_GRAVE,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
         KC_H,   KC_J,   KC_K,   KC_L,   LT(MEDI, KC_SCOLON),    GUI_T(KC_QUOTE),
-    KC_RBRACKET,  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
-            KC_UP,  KC_DOWN,    KC_RCBR,    KC_DELETE,    MO(SYMB),
-    CTL_T(KC_ESCAPE), KC_LEAD,
+    OSL(SYMB),  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
+            KC_UP,  KC_DOWN,    KC_RCBR,    KC_DELETE,    KC_CAPS,
+    KC_ESCAPE, KC_LEAD,
     KC_PGUP,
     LT(KEYW,KC_PGDOWN),  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
 ),
@@ -246,6 +249,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
+/*
+//Tap Dance Definitions
+qk_tap_dance_action_t tap_dance_actions[] = {
+  [TMUX] = ACTION_TAP_DANCE_DOUBLE(KC_GRAVE, KC_LBRC),
+  // tap for Layer 0, tap twice to switch to symbol layer, and tap three times to switch to rimworld layer.
+  // Other declarations would go here, separated by commas, if you have them
+};
+*/
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
