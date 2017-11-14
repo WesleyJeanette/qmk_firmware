@@ -43,9 +43,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  |  L3  |           |  L1  |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Esc    |    Q   |   W  |   E  |   R  |   T  |   :  |           |      |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * | Tab    |    Q   |   W  |   E  |   R  |   T  |   :  |           |      |   Y  |   U  |   I  |   O  |   P  |   \    |
  * |--------+--------+------+------+------+------|      |           |  `   |------+------+------+------+------+--------|
- * | Tab    |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/MEDI| "/LGUI |
+ * | `/LGUI |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/MEDI| "/LGUI |
  * |--------+--------+------+------+------+------|  Esc |           | OSL  |------+------+------+------+------+--------|
  * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           | SYMB |   N  |   M  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -61,8 +61,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [QWRT] = KEYMAP(
     KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(3),
-    KC_ESCAPE, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_COLN,
-    KC_TAB,  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
+    KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_COLN,
+    GUI_T(KC_GRAVE),  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_ESCAPE,
     LT(1,KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
     KC_LEAD, TG(NUMB),
