@@ -34,7 +34,7 @@ enum custom_keycodes {
 
 // tapdance
 enum {
- TMUX = 0
+ TD_C_SC = 0
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -56,27 +56,27 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 ,------|------|--------|       |--------+------+------.
  *                                 | Bsp  | Del  |  Home  |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
- *                                 | Ctrl | Alt  |End/KEYW|       |PDn/KEYW|  Alt | Ctrl |
+ *                                 | Ctrl | Alt  |Esc/KEYW|       | ` /KEYW|  Alt | Ctrl |
  *                                 `----------------------'       `----------------------'
  */
 [QWRT] = KEYMAP(
-    KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(3),
-    KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   KC_COLN,
+    KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(NUMB),
+    KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   TD(TD_C_SC),
     GUI_T(KC_GRAVE),  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_ESCAPE,
-    LT(1,KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
+    LT(SYMB, KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
     KC_LEAD, TG(NUMB),
     KC_HOME,
-    CTL_T(KC_BSPC),   ALT_T(KC_DELETE),  LT(KEYW,KC_END),
+    CTL_T(KC_BSPC),   ALT_T(KC_DELETE),  LT(KEYW,KC_ESCAPE),
 
-    TG(1),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
+    TG(SYMB),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
     KC_GRAVE,    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
         KC_H,   KC_J,   KC_K,   KC_L,   LT(MEDI, KC_SCOLON),    GUI_T(KC_QUOTE),
     OSL(SYMB),  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
             KC_UP,  KC_DOWN,    KC_RCBR,    KC_DELETE,    KC_CAPS,
     KC_ESCAPE, KC_LEAD,
     KC_PGUP,
-    LT(KEYW,KC_PGDOWN),  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
+    LT(KEYW,KC_GRAVE),  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
 ),
 
 /* Keymap 1: Symbol Layer with F keys
@@ -249,14 +249,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
 };
 
-/*
 //Tap Dance Definitions
 qk_tap_dance_action_t tap_dance_actions[] = {
-  [TMUX] = ACTION_TAP_DANCE_DOUBLE(KC_GRAVE, KC_LBRC),
+  [TD_C_SC] = ACTION_TAP_DANCE_DOUBLE(KC_COLN, KC_SCOLON),
   // tap for Layer 0, tap twice to switch to symbol layer, and tap three times to switch to rimworld layer.
   // Other declarations would go here, separated by commas, if you have them
 };
-*/
 
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
