@@ -6,10 +6,10 @@
 
 // BASE Layers
 #define QWRT 0 // QWRTY
-#define COLE 1 // Colemak
-#define COLEDH 2 // Colemak
+#define COLEDH 1 // Colemak
+#define COLE 2 // Colemak
 
-#define WIN 3 // Windows
+#define EXTEND 3
 
 #define SYMB 4 // symbols
 #define MEDI 5 // media keys
@@ -75,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     GUI_T(KC_GRAVE),  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_DELETE,
     LT(SYMB, KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
-    DF(COLE), TG(WIN),
+    DF(COLEDH), TG(EXTEND),
     KC_ENTER,
     CTL_T(KC_BSPC),   ALT_T(KC_ESCAPE), KC_LEAD,
 
@@ -94,42 +94,41 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  | SYMB |           | SYMB |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |    Q   |   W  |   F  |   P  |   G  |   :  |           | OSL  |   J  |   L  |   U  |   Y  |;/MEDI|   \    |
+ * | Tab    |    Q   |   W  |   F  |   P  |   B  |   :  |           | OSL  |   J  |   L  |   U  |   Y  |;/MEDI|   \    |
  * |--------+--------+------+------+------+------|      |           | KEYW |------+------+------+------+------+--------|
- * | `/LGUI |    A   |   R  |   S  |   T  |   D  |------|           |------|   H  |   N  |   E  |   I  |   O  | "/LGUI |
+ * | `/LGUI |    A   |   R  |   S  |   T  |   G  |------|           |------|   K  |   N  |   E  |   I  |   O  | "/LGUI |
  * |--------+--------+------+------+------+------|  Del |           | OSL  |------+------+------+------+------+--------|
- * | LSft/( | Z/Ctrl |   X  |   C  |   B  |   V  |      |           | SYMB |   K  |   M  |   ,  |   .  |   /  | RSft/) |
+ * | LSft/( | Z/Ctrl |   X  |   C  |   D  |   V  |      |           | SYMB |   M  |   H  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |SYMB/`| Home | End | Left |Right |                                       |  Up  | Down | PgUp | PgDn | SYMB |
  *   `---------------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
- *                                        |COLEDH| WinMac |       |   esc  |lead  |
+ *                                        | QWRT | WinMac |       |   esc  |lead  |
  *                                 ,------|------|--------|       |--------+------+------.
  *                                 | Bsp  | Esc  |  Enter |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
  *                                 | Ctrl | Alt  |  Lead  |       |  Lead  |  Alt | Ctrl |
  *                                 `----------------------'       `----------------------'
  */
-[COLE] = LAYOUT_ergodox(
+[COLEDH] = LAYOUT_ergodox(
     KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(SYMB),
-    KC_TAB, KC_Q,   KC_W,   KC_F,   KC_P,   KC_G,   TD(TD_C_SC),
-    GUI_T(KC_GRAVE),  KC_A,   KC_R,   KC_S,   KC_T,   KC_D,
-    KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_B,   KC_V,   KC_DELETE,
+    KC_TAB, KC_Q,   KC_W,   KC_F,   KC_P,   KC_B,   TD(TD_C_SC),
+    GUI_T(KC_GRAVE),  KC_A,   KC_R,   KC_S,   KC_T,   KC_G,
+    KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_D,   KC_V,   KC_DELETE,
     LT(SYMB, KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
-    DF(COLEDH), TG(WIN),
+    DF(COLE), TG(EXTEND),
     KC_ENTER,
-    CTL_T(KC_BSPC),   ALT_T(KC_ESCAPE),  KC_LEAD,
+    CTL_T(KC_BSPC),   ALT_T(KC_ESCAPE), KC_LEAD,
 
     TG(SYMB),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
     OSL(KEYW),    KC_J,   KC_L,   KC_U,   KC_Y,  LT(MEDI, KC_SCOLON), KC_BSLASH,
-        KC_H,   KC_N,   KC_E,   KC_I,  KC_O,    GUI_T(KC_QUOTE),
-    OSL(SYMB),  KC_K,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
+        KC_K,   KC_N,   KC_E,   KC_I,  KC_O,    GUI_T(KC_QUOTE),
+    OSL(SYMB),  KC_M,   KC_H,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
             KC_UP,  KC_DOWN,    KC_RCBR,    KC_DELETE,   TG(SYMB),
     KC_ESCAPE, KC_LEAD,
     KC_PGUP,
     KC_LEAD,  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
 ),
-
 /* Keymap Colemak layer
  *
  * ,----------------------------------------------------.           ,--------------------------------------------------.
@@ -151,13 +150,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 | Ctrl | Alt  |  Lead  |       |  Lead  |  Alt | Ctrl |
  *                                 `----------------------'       `----------------------'
  */
-[COLEDH] = LAYOUT_ergodox(
+[COLE] = LAYOUT_ergodox(
     KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(SYMB),
     KC_TAB, KC_Q,   KC_W,   KC_F,   KC_P,   KC_B,   TD(TD_C_SC),
     GUI_T(KC_GRAVE),  KC_A,   KC_R,   KC_S,   KC_T,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_D,   KC_V,   KC_DELETE,
     LT(SYMB, KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
-    DF(QWRT), TG(WIN),
+    DF(QWRT), TG(EXTEND),
     KC_ENTER,
     CTL_T(KC_BSPC),   ALT_T(KC_ESCAPE), KC_LEAD,
 
@@ -171,7 +170,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_LEAD,  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
 ),
 
-/* Keymap Windows Mode
+/* Keymap extend Mode
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |   ##   |  ##  |  ##  |  ##  |  ##  |  ##  |  ##  |           |  ##  |  ##  |  ##  |  ##  |  ##  |  ##  |   ##   |
@@ -180,7 +179,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * | `/Crtl |  ##  |  ##  |  ##  |  ##  |  ##  |------|           |------|  ##  |  ##  |  ##  |  ##  |  ##  | "/Ctrl |
  * |--------+------+------+------+------+------|  ##  |           |  ##  |------+------+------+------+------+--------|
- * |   ##   |  ##  |  ##  |  ##  |  ##  |  ##  |      |           |      |  ##  |  ##  |  ##  |  ##  |  ##  |   ##   |
+ * |   ##   | UNDO | CUT  | COPY | PASTE| PASTE|      |           |      |  ##  |  ##  |  ##  |  ##  |  ##  |   ##   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |  ##  |  ##  |  ##  |  ##  |  ##  |                                       |  ##  |  ##  |  ##  |  ##  |  ##  |
  *   `----------------------------------'                                       `----------------------------------'
@@ -192,12 +191,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *                                 |      |      |  ##  |       |  ##  |      |      |
  *                                 `--------------------'       `--------------------'
  */
-[WIN] = LAYOUT_ergodox(
+[EXTEND] = LAYOUT_ergodox(
 	// left hand
 	KC_TRNS,    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
 	KC_TRNS,    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
 	CTL_T(KC_GRAVE),    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,
-	KC_TRNS,    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
+	KC_TRNS,    KC_UNDO,    KC_CUT,   KC_COPY,    KC_PASTE,    KC_PASTE,    KC_TRNS,
 	KC_TRNS,    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,
 											                                        KC_TRNS,	    KC_TRNS,
 													                                                KC_TRNS,
@@ -205,8 +204,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 	// right hand
 	KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-	KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,	KC_TRNS,
-			    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    CTL_T(KC_QUOTE),
+	KC_TRNS,    KC_PGUP,    KC_HOME,    KC_UP,    KC_END,    KC_TRNS,	KC_TRNS,
+			    KC_PGDN,    KC_LEFT,    KC_DOWN,    KC_RIGHT,   KC_TRNS,    CTL_T(KC_QUOTE),
 	KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,	KC_TRNS,
 				            KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
 	KC_TRNS,    KC_TRNS,
@@ -262,7 +261,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |   ##   |  ##  |  ##  |  ##  |  ##  |  ##  |  ##  |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * |   ##   |      |      | MsUp |      |      |  MsW |           |      |      |      | MsUp |      |      |        |
+ * |   ##   |      |      | MsUp |      |      |  MsW |           |      |      |      |  Up  |      |      |        |
  * |--------+------+------+------+------+------|   up |           |      |------+------+------+------+------+--------|
  * |   ##   |      |MsLeft|MsDown|MsRght|      |------|           |------|      | Left | Down | Rght |      |        |
  * |--------+------+------+------+------+------|  MsW |           |      |------+------+------+------+------+--------|
@@ -308,7 +307,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
  * |         |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
+ * |         |      |      |      |      |      |------|           |------| <-   |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
  * |         |      |  Cut | Copy | Paste|      |      |           |      |      |      |      |      |      |        |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
@@ -327,7 +326,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,     KC_NO,     KC_NO,    KC_NO,   KC_NO,    KC_NO,  KC_NO,
         KC_NO,     KC_NO,     KC_NO,    KC_NO,   KC_NO,    KC_NO,  KC_NO,
         KC_NO,     KC_NO,     KC_NO,    KC_NO,   KC_NO,    KC_NO,
-        KC_NO,     KC_NO,     UM_CUT,   UM_COPY, UM_PASTE, KC_NO,  KC_NO,
+        KC_NO,     KC_NO,     KC_CUT,   KC_COPY, KC_PASTE, KC_NO,  KC_NO,
         KC_NO,     KC_NO,     KC_NO,    KC_NO,   KC_NO,
                                                                    KC_NO,    KC_NO,
                                                                              KC_NO,
@@ -499,7 +498,7 @@ void matrix_scan_user(void) {
             ergodox_right_led_1_on();
             break;
         case 2:
-            // win
+            // EXTEND
             ergodox_right_led_2_on();
             break;
         case 3:
