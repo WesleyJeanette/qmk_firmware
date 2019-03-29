@@ -5,9 +5,8 @@
 #include "mousekey.h"
 
 // BASE Layers
-#define QWRT 0 // QWRTY
-#define COLEDH 1 // Colemak
-#define COLE 2 // Colemak
+#define COLEDH 0 // Colemak
+#define QWRT 1 // QWRTY
 
 #define EXTEND 3
 
@@ -16,20 +15,12 @@
 #define KEYW 6 // keyword macros
 
 // my macros
-#define MACRO_WM 9
-#define MACRO_CUT 15
-#define MACRO_COPY 16
-#define MACRO_PASTE 17
 
-#define UM_WM     M(MACRO_WM)
 #define UM_0x     M(1)  // 0x
 #define UM_CEQ    M(2)  // :=
 #define UM_STR    M(3)  // struct
 #define UM_RET    M(4)  // return
 #define UM_GITLOG M(5)  // git lola
-#define UM_CUT    M(MACRO_CUT)
-#define UM_COPY   M(MACRO_COPY)
-#define UM_PASTE  M(MACRO_PASTE)
 #define UM_BREAK  M(7)  // break
 #define UM_NEQ    M(8)  // !=
 
@@ -40,70 +31,50 @@ enum custom_keycodes {
   RGB_SLD,
 };
 
-// tapdance
+typedef struct {
+  bool is_press_action;
+  int state;
+} tap;
+
 enum {
- TD_C_SC = 0
+  SINGLE_TAP = 1,
+  SINGLE_HOLD = 2,
+  DOUBLE_TAP = 3,
+  DOUBLE_HOLD = 4,
+  DOUBLE_SINGLE_TAP = 5, //send two single taps
+  TRIPLE_TAP = 6,
+  TRIPLE_HOLD = 7
 };
 
-uint16_t WindowsMode = 0;
+// tapdance
+enum {
+ TD_C_SC = 0,
+ /* TD_BSP_DEL_CTRL, */
+};
+
+int cur_dance (qk_tap_dance_state_t *state);
+
+//for the x tap dance. Put it here so it can be used in any keymap
+void x_finished (qk_tap_dance_state_t *state, void *user_data);
+void x_reset (qk_tap_dance_state_t *state, void *user_data);
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-/* Keymap QWRT
- *
- * ,----------------------------------------------------.           ,--------------------------------------------------.
- * |  =     |    1   |   2  |   3  |   4  |   5  | SYMB |           | SYMB |   6  |   7  |   8  |   9  |   0  |   -    |
- * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |    Q   |   W  |   E  |   R  |   T  |   :  |           | OSL  |   Y  |   U  |   I  |   O  |   P  |   \    |
- * |--------+--------+------+------+------+------|      |           | KEYW |------+------+------+------+------+--------|
- * | `/LGUI |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/MEDI| "/LGUI |
- * |--------+--------+------+------+------+------|  Del |           | OSL  |------+------+------+------+------+--------|
- * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           | SYMB |   N  |   M  |   ,  |   .  |   /  | RSft/) |
- * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |SYMB/`| Home | End | Left |Right |                                       |  Up  | Down | PgUp | PgDn | SYMB |
- *   `---------------------------------'                                       `----------------------------------'
- *                                        ,---------------.       ,---------------.
- *                                        | COLE | WinMac |       |   esc  |lead  |
- *                                 ,------|------|--------|       |--------+------+------.
- *                                 | Bsp  | Esc  |  Enter |       |  PgUp  | Enter|Space |
- *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
- *                                 | Ctrl | Alt  |  Lead  |       |  Lead  |  Alt | Ctrl |
- *                                 `----------------------'       `----------------------'
- */
-[QWRT] = LAYOUT_ergodox(
-    KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(SYMB),
-    KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   TD(TD_C_SC),
-    GUI_T(KC_GRAVE),  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
-    KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_DELETE,
-    LT(SYMB, KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
-    DF(COLEDH), TG(EXTEND),
-    KC_ENTER,
-    CTL_T(KC_BSPC),   ALT_T(KC_ESCAPE), KC_LEAD,
-
-    TG(SYMB),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
-    OSL(KEYW),    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
-        KC_H,   KC_J,   KC_K,   KC_L,   LT(MEDI, KC_SCOLON),   GUI_T(KC_QUOTE),
-    OSL(SYMB),  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
-            KC_UP,  KC_DOWN,    KC_RCBR,    KC_DELETE,    TG(SYMB),
-    KC_ESCAPE, KC_LEAD,
-    KC_PGUP,
-    KC_LEAD,  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
-),
 
 /* Keymap Colemak layer
  *
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  | SYMB |           | SYMB |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |    Q   |   W  |   F  |   P  |   B  |   :  |           | OSL  |   J  |   L  |   U  |   Y  |;/MEDI|   \    |
- * |--------+--------+------+------+------+------|      |           | KEYW |------+------+------+------+------+--------|
- * | `/LGUI |    A   |   R  |   S  |   T  |   G  |------|           |------|   K  |   N  |   E  |   I  |   O  | "/LGUI |
+ * | Tab    |    Q   |   W  |   F  |   P  |   B  |   :  |           |      |   J  |   L  |   U  |   Y  |;/MEDI|   \    |
+ * |--------+--------+------+------+------+------|      |           |EXTEND|------+------+------+------+------+--------|
+ * | `/LGUI |    A   |   R  |   S  |   T  |   G  |------|           |------|   M  |   N  |   E  |   I  |   O  | "/LGUI |
  * |--------+--------+------+------+------+------|  Del |           | OSL  |------+------+------+------+------+--------|
- * | LSft/( | Z/Ctrl |   X  |   C  |   D  |   V  |      |           | SYMB |   M  |   H  |   ,  |   .  |   /  | RSft/) |
+ * | LSft/( | Z/Ctrl |   X  |   C  |   D  |   V  |      |           | SYMB |   K  |   H  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |SYMB/`| Home | End | Left |Right |                                       |  Up  | Down | PgUp | PgDn | SYMB |
+ *   |SYMB/`|      |     |      |      |                                       |      |      |      |      | SYMB |
  *   `---------------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
- *                                        | QWRT | WinMac |       |   esc  |lead  |
+ *                                        | QWRT | EXTEND |       |   esc  |lead  |
  *                                 ,------|------|--------|       |--------+------+------.
  *                                 | Bsp  | Esc  |  Enter |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
@@ -115,56 +86,56 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TAB, KC_Q,   KC_W,   KC_F,   KC_P,   KC_B,   TD(TD_C_SC),
     GUI_T(KC_GRAVE),  KC_A,   KC_R,   KC_S,   KC_T,   KC_G,
     KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_D,   KC_V,   KC_DELETE,
-    LT(SYMB, KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
-    DF(COLE), TG(EXTEND),
+    LT(SYMB, KC_GRAVE), KC_NO,   KC_NO,    KC_NO,    KC_NO,
+    DF(QWRT), TG(EXTEND),
     KC_ENTER,
     CTL_T(KC_BSPC),   ALT_T(KC_ESCAPE), KC_LEAD,
 
     TG(SYMB),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
-    OSL(KEYW),    KC_J,   KC_L,   KC_U,   KC_Y,  LT(MEDI, KC_SCOLON), KC_BSLASH,
-        KC_K,   KC_N,   KC_E,   KC_I,  KC_O,    GUI_T(KC_QUOTE),
-    OSL(SYMB),  KC_M,   KC_H,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
-            KC_UP,  KC_DOWN,    KC_RCBR,    KC_DELETE,   TG(SYMB),
+    TG(EXTEND),    KC_J,   KC_L,   KC_U,   KC_Y,  LT(MEDI, KC_SCOLON), KC_BSLASH,
+        KC_M,   KC_N,   KC_E,   KC_I,  KC_O,    GUI_T(KC_QUOTE),
+    OSL(SYMB),  KC_K,   KC_H,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
+            KC_NO,  KC_NO,    KC_NO,    KC_NO,   TG(SYMB),
     KC_ESCAPE, KC_LEAD,
     KC_PGUP,
     KC_LEAD,  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
 ),
-/* Keymap Colemak layer
+/* Keymap QWRT
  *
  * ,----------------------------------------------------.           ,--------------------------------------------------.
  * |  =     |    1   |   2  |   3  |   4  |   5  | SYMB |           | SYMB |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+--------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Tab    |    Q   |   W  |   F  |   P  |   B  |   :  |           | OSL  |   J  |   L  |   U  |   Y  |;/MEDI|   \    |
- * |--------+--------+------+------+------+------|      |           | KEYW |------+------+------+------+------+--------|
- * | `/LGUI |    A   |   R  |   S  |   T  |   G  |------|           |------|   M  |   N  |   E  |   I  |   O  | "/LGUI |
+ * | Tab    |    Q   |   W  |   E  |   R  |   T  |   :  |           |      |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * |--------+--------+------+------+------+------|      |           |EXTEND|------+------+------+------+------+--------|
+ * | `/LGUI |    A   |   S  |   D  |   F  |   G  |------|           |------|   H  |   J  |   K  |   L  |;/MEDI| "/LGUI |
  * |--------+--------+------+------+------+------|  Del |           | OSL  |------+------+------+------+------+--------|
- * | LSft/( | Z/Ctrl |   X  |   C  |   D  |   V  |      |           | SYMB |   K  |   H  |   ,  |   .  |   /  | RSft/) |
+ * | LSft/( | Z/Ctrl |   X  |   C  |   V  |   B  |      |           | SYMB |   N  |   M  |   ,  |   .  |   /  | RSft/) |
  * `--------+--------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |SYMB/`| Home | End | Left |Right |                                       |  Up  | Down | PgUp | PgDn | SYMB |
+ *   |SYMB/`|      |     |      |      |                                       |      |      |      |      | SYMB |
  *   `---------------------------------'                                       `----------------------------------'
  *                                        ,---------------.       ,---------------.
- *                                        | QWRT | WinMac |       |   esc  |lead  |
+ *                                        | COLE | EXTEND |       |   esc  |lead  |
  *                                 ,------|------|--------|       |--------+------+------.
  *                                 | Bsp  | Esc  |  Enter |       |  PgUp  | Enter|Space |
  *                                 |  /   |  /   |--------|       |--------|   /  |  /   |
  *                                 | Ctrl | Alt  |  Lead  |       |  Lead  |  Alt | Ctrl |
  *                                 `----------------------'       `----------------------'
  */
-[COLE] = LAYOUT_ergodox(
+[QWRT] = LAYOUT_ergodox(
     KC_EQUAL,   KC_1,   KC_2,   KC_3,   KC_4,   KC_5,   TG(SYMB),
-    KC_TAB, KC_Q,   KC_W,   KC_F,   KC_P,   KC_B,   TD(TD_C_SC),
-    GUI_T(KC_GRAVE),  KC_A,   KC_R,   KC_S,   KC_T,   KC_G,
-    KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_D,   KC_V,   KC_DELETE,
-    LT(SYMB, KC_GRAVE), KC_HOME,   KC_END,    KC_LEFT,    KC_RIGHT,
-    DF(QWRT), TG(EXTEND),
+    KC_TAB, KC_Q,   KC_W,   KC_E,   KC_R,   KC_T,   TD(TD_C_SC),
+    GUI_T(KC_GRAVE),  KC_A,   KC_S,   KC_D,   KC_F,   KC_G,
+    KC_LSPO,    CTL_T(KC_Z),    KC_X,   KC_C,   KC_V,   KC_B,   KC_DELETE,
+    LT(SYMB, KC_GRAVE), KC_NO,   KC_NO,    KC_NO,    KC_NO,
+    DF(COLEDH), TG(EXTEND),
     KC_ENTER,
     CTL_T(KC_BSPC),   ALT_T(KC_ESCAPE), KC_LEAD,
 
     TG(SYMB),  KC_6,   KC_7,   KC_8,   KC_9,   KC_0,   KC_MINUS,
-    OSL(KEYW),    KC_J,   KC_L,   KC_U,   KC_Y,  LT(MEDI, KC_SCOLON), KC_BSLASH,
-        KC_M,   KC_N,   KC_E,   KC_I,  KC_O,    GUI_T(KC_QUOTE),
-    OSL(SYMB),  KC_K,   KC_H,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
-            KC_UP,  KC_DOWN,    KC_RCBR,    KC_DELETE,   TG(SYMB),
+    TG(EXTEND),    KC_Y,   KC_U,   KC_I,   KC_O,   KC_P,   KC_BSLASH,
+        KC_H,   KC_J,   KC_K,   KC_L,   LT(MEDI, KC_SCOLON),   GUI_T(KC_QUOTE),
+    OSL(SYMB),  KC_N,   KC_M,   KC_COMMA,   KC_DOT, CTL_T(KC_SLASH),    KC_RSPC,
+            KC_NO,  KC_NO,    KC_NO,    KC_NO,    TG(SYMB),
     KC_ESCAPE, KC_LEAD,
     KC_PGUP,
     KC_LEAD,  ALT_T(KC_ENTER),   CTL_T(KC_SPACE)
@@ -175,11 +146,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |   ##   |  ##  |  ##  |  ##  |  ##  |  ##  |  ##  |           |  ##  |  ##  |  ##  |  ##  |  ##  |  ##  |   ##   |
  * |--------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
- * |   ##   |  ##  |  ##  |  ##  |  ##  |  ##  |  ##  |           |  ##  |  ##  |  ##  |  ##  |  ##  |  ##  |   ##   |
+ * |   ##   |  ##  |  ##  |  ##  |  ##  |  ##  |  ##  |           |  ##  | DOWN | RIGHT| END  |PGDOWN|  ##  |   ##   |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * | `/Crtl |  ##  |  ##  |  ##  |  ##  |  ##  |------|           |------|  ##  |  ##  |  ##  |  ##  |  ##  | "/Ctrl |
+ * |   ##   |  ##  |  ##  |  ##  |  ##  |  ##  |------|           |------|  C(UP)  | C(LEFT)  |  C(RIGHT)  |  ##  |  ##  |   ##   |
  * |--------+------+------+------+------+------|  ##  |           |  ##  |------+------+------+------+------+--------|
- * |   ##   | UNDO | CUT  | COPY | PASTE| PASTE|      |           |      |  ##  |  ##  |  ##  |  ##  |  ##  |   ##   |
+ * |   ##   | UNDO | CUT  | COPY |  ##  | PASTE|      |           |      |  UP  | LEFT | HOME | PGUP |  ##  |   ##   |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |  ##  |  ##  |  ##  |  ##  |  ##  |                                       |  ##  |  ##  |  ##  |  ##  |  ##  |
  *   `----------------------------------'                                       `----------------------------------'
@@ -193,20 +164,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [EXTEND] = LAYOUT_ergodox(
 	// left hand
-	KC_TRNS,    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-	KC_TRNS,    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-	CTL_T(KC_GRAVE),    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,    KC_TRNS,
-	KC_TRNS,    KC_UNDO,    KC_CUT,   KC_COPY,    KC_PASTE,    KC_PASTE,    KC_TRNS,
-	KC_TRNS,    KC_TRNS,    KC_TRNS,   KC_TRNS,    KC_TRNS,
-											                                        KC_TRNS,	    KC_TRNS,
-													                                                KC_TRNS,
-									                                KC_TRNS,	    KC_TRNS,	    KC_TRNS,
+    // left hand
+    KC_TRNS, KC_TRNS,   KC_TRNS, KC_TRNS, KC_TRNS,  KC_TRNS, KC_TRNS,
+    KC_TRNS, KC_NO,     KC_NO,  KC_MS_U, KC_NO,   KC_NO, KC_WH_U,
+    KC_TRNS, KC_NO,     KC_MS_L, KC_MS_D, KC_MS_R,  KC_NO,
+    KC_TRNS, KC_NO,     KC_NO,  KC_NO, KC_NO,   KC_NO,   KC_WH_D,
+    KC_TRNS, KC_TRNS,   KC_BTN1, KC_BTN3, KC_BTN2,
+                                                    KC_TRNS, KC_TRNS,
+                                                             KC_WFWD,
+                                          KC_BTN1,  KC_BTN2, KC_WBAK,
 
 	// right hand
 	KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
-	KC_TRNS,    KC_PGUP,    KC_HOME,    KC_UP,    KC_END,    KC_TRNS,	KC_TRNS,
-			    KC_PGDN,    KC_LEFT,    KC_DOWN,    KC_RIGHT,   KC_TRNS,    CTL_T(KC_QUOTE),
-	KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,	KC_TRNS,
+	KC_TRNS,    KC_DOWN,    KC_RIGHT,    KC_END,    KC_PGDN,    KC_TRNS,	KC_TRNS,
+		   LCTL(KC_UP),    LCTL(KC_LEFT),    LCTL(KC_RIGHT),   KC_TRNS,     KC_TRNS, KC_TRNS,
+	KC_TRNS,    KC_UP,    KC_LEFT,    KC_HOME,    KC_PGUP,    KC_TRNS,	KC_TRNS,
 				            KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,    KC_TRNS,
 	KC_TRNS,    KC_TRNS,
 	KC_TRNS,
@@ -307,9 +279,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |---------+------+------+------+------+------+------|           |------+------+------+------+------+------+--------|
  * |         |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |      |      |      |      |      |------|           |------| <-   |      |      |      |      |        |
+ * |         |      |      |      |      |      |------|           |------|      |      |      |      |      |        |
  * |---------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |         |      |  Cut | Copy | Paste|      |      |           |      |      |      |      |      |      |        |
+ * |         |      |  Cut | Copy |      |PASTE |      |           |      |      |      |      |      |      |        |
  * `---------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |       |      |      |      |      |                                       |      |      |      |      |      |
  *   `-----------------------------------'                                       `----------------------------------'
@@ -326,7 +298,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,     KC_NO,     KC_NO,    KC_NO,   KC_NO,    KC_NO,  KC_NO,
         KC_NO,     KC_NO,     KC_NO,    KC_NO,   KC_NO,    KC_NO,  KC_NO,
         KC_NO,     KC_NO,     KC_NO,    KC_NO,   KC_NO,    KC_NO,
-        KC_NO,     KC_NO,     KC_CUT,   KC_COPY, KC_PASTE, KC_NO,  KC_NO,
+        KC_NO,     KC_NO,     KC_CUT,   KC_COPY, KC_NO, KC_PASTE,  KC_NO,
         KC_NO,     KC_NO,     KC_NO,    KC_NO,   KC_NO,
                                                                    KC_NO,    KC_NO,
                                                                              KC_NO,
@@ -439,42 +411,6 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
     case 8:
         if (record->event.pressed) {
             SEND_STRING("!=");
-        }
-        break;
-    case MACRO_WM:
-        if (record->event.pressed) {
-            if (WindowsMode) {
-                WindowsMode = 0;
-            } else {
-                WindowsMode = 1;
-            }
-        }
-        break;
-    case  MACRO_CUT:
-        if (record->event.pressed) {
-            if (WindowsMode) {
-                SEND_STRING(SS_LCTRL("x"));
-            } else {
-                SEND_STRING(SS_LGUI("x"));
-            }
-        }
-        break;
-    case  MACRO_COPY:
-        if (record->event.pressed) {
-            if (WindowsMode) {
-                SEND_STRING(SS_LCTRL("c"));
-            } else {
-                SEND_STRING(SS_LGUI("c"));
-            }
-        }
-        break;
-    case  MACRO_PASTE:
-        if (record->event.pressed) {
-            if (WindowsMode) {
-                SEND_STRING(SS_LCTRL("v"));
-            } else {
-                SEND_STRING(SS_LGUI("v"));
-            }
         }
         break;
     }
@@ -610,6 +546,75 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   }
   return true;
+}
+
+// tap dance functions
+
+int cur_dance (qk_tap_dance_state_t *state) {
+  if (state->count == 1) {
+    if (state->interrupted || !state->pressed)  return SINGLE_TAP;
+    //key has not been interrupted, but they key is still held. Means you want to send a 'HOLD'.
+    else return SINGLE_HOLD;
+  }
+  else if (state->count == 2) {
+    /*
+     * DOUBLE_SINGLE_TAP is to distinguish between typing "pepper", and actually wanting a double tap
+     * action when hitting 'pp'. Suggested use case for this return value is when you want to send two
+     * keystrokes of the key, and not the 'double tap' action/macro.
+    */
+    if (state->interrupted) return DOUBLE_SINGLE_TAP;
+    else if (state->pressed) return DOUBLE_HOLD;
+    else return DOUBLE_TAP;
+  }
+  //Assumes no one is trying to type the same letter three times (at least not quickly).
+  //If your tap dance key is 'KC_W', and you want to type "www." quickly - then you will need to add
+  //an exception here to return a 'TRIPLE_SINGLE_TAP', and define that enum just like 'DOUBLE_SINGLE_TAP'
+  if (state->count == 3) {
+    if (state->interrupted || !state->pressed)  return TRIPLE_TAP;
+    else return TRIPLE_HOLD;
+  }
+  else return 8; //magic number. At some point this method will expand to work for more presses
+}
+
+//instanalize an instance of 'tap' for the 'x' tap dance.
+static tap bksp_tap_state = {
+  .is_press_action = true,
+  .state = 0
+};
+
+void bksp_finished (qk_tap_dance_state_t *state, void *user_data) {
+  bksp_tap_state.state = cur_dance(state);
+  switch (bksp_tap_state.state) {
+    case SINGLE_TAP: register_code(KC_BSPC); break;
+    case SINGLE_HOLD: register_code(KC_LCTRL); break;
+    case DOUBLE_TAP: layer_on(EXTEND); break;
+    case DOUBLE_HOLD: register_code(KC_LALT); break;
+    case DOUBLE_SINGLE_TAP: register_code(KC_BSPC); unregister_code(KC_BSPC); register_code(KC_BSPC);
+    //Last case is for fast typing. Assuming your key is `f`:
+    //For example, when typing the word `buffer`, and you want to make sure that you send `ff` and not `Esc`.
+    //In order to type `ff` when typing fast, the next character will have to be hit within the `TAPPING_TERM`, which by default is 200ms.
+  }
+}
+
+void bksp_reset (qk_tap_dance_state_t *state, void *user_data) {
+  switch (bksp_tap_state.state) {
+    case SINGLE_TAP: unregister_code(KC_BSPC); break;
+    case SINGLE_HOLD: unregister_code(KC_LCTRL); break;
+    case DOUBLE_TAP: layer_off(EXTEND); break;
+    case DOUBLE_HOLD: unregister_code(KC_LALT);
+    case DOUBLE_SINGLE_TAP: unregister_code(KC_BSPC);
+  }
+  bksp_tap_state.state = 0;
+}
+
+void tap_layer(keyrecord_t *record, uint8_t layer)
+{
+  if (record->event.pressed) {
+    layer_on(layer);
+  }
+  else {
+    layer_off(layer);
+  }
 }
 
 /*
